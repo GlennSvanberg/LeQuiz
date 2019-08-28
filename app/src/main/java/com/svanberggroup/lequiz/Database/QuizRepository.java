@@ -26,18 +26,32 @@ public class QuizRepository {
     public void insert(Quiz quiz) {
         new insertAsyncTask(mQuizDao).execute(quiz);
     }
-        private static class insertAsyncTask extends AsyncTask<Quiz, Void, Void> {
-            private QuizDao mAsyncTaskDao;
+    private static class insertAsyncTask extends AsyncTask<Quiz, Void, Void> {
+        private QuizDao mAsyncTaskDao;
 
-            public insertAsyncTask(QuizDao dao) {
-                mAsyncTaskDao = dao;
-            }
-
-            @Override
-            protected Void doInBackground(final Quiz... params) {
-                mAsyncTaskDao.insert(params[0]);
-                return null;
-            }
+        public insertAsyncTask(QuizDao dao) {
+            mAsyncTaskDao = dao;
         }
 
+        @Override
+        protected Void doInBackground(final Quiz... params) {
+            mAsyncTaskDao.insert(params[0]);
+            return null;
+        }
+    }
+
+    public void update(Quiz quiz) {
+        new updateAsyncTask(mQuizDao).execute(quiz);
+    }
+    private static class updateAsyncTask extends AsyncTask<Quiz, Void, Void> {
+        private QuizDao mAsyncTaskDao;
+
+                public updateAsyncTask(QuizDao dao) {mAsyncTaskDao = dao; }
+
+        @Override
+        protected Void doInBackground(Quiz... quizzes) {
+            mAsyncTaskDao.update(quizzes[0]);
+            return null;
+        }
+    }
 }

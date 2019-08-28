@@ -32,4 +32,8 @@ public class QuizViewModel extends AndroidViewModel {
     public void insert(Quiz quiz) {
         mQuizRepository.insert(quiz);
     }
+
+    public void update(Quiz quiz) {
+        mQuizRepository.update(quiz);
+    }
 }

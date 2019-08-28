@@ -21,13 +21,13 @@ public abstract class QuizRoomDatabase extends RoomDatabase {
         if(INSTANCE == null) {
             synchronized (QuizRoomDatabase.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), QuizRoomDatabase.class, "quiz_database").addCallback(SRoomDatabaseCallback).build();
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), QuizRoomDatabase.class, "quiz_database").addCallback(sRoomDatabaseCallback).build();
                 }
             }
         }
         return INSTANCE;
     }
-    private static RoomDatabase.Callback SRoomDatabaseCallback = new RoomDatabase.Callback() {
+    private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
             super.onOpen(db);

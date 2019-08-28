@@ -75,12 +75,6 @@ public class QuizListFragment extends Fragment {
             case R.id.new_quiz:
                 Intent intent = new Intent(getActivity(), EditQuizActivity.class);
                 startActivityForResult(intent, NEW_QUIZ_REQUEST_CODE);
-                /*  Enter a demo quiz without launching activity
-
-                Quiz quiz = new Quiz();
-                quiz.setTitle("TEST" + quiz.getId().toString());
-                mQuizViewModel.insert(quiz);
-                 */
 
                 return true;
             default:

@@ -31,13 +31,15 @@ public class EditQuizFragment extends Fragment {
     private QuizViewModel mQuizViewModel;
     private Quiz mQuiz;
 
+    
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
         mQuizViewModel = ViewModelProviders.of(this).get(QuizViewModel.class);
-        
+
         mQuiz = new Quiz();
         mQuizViewModel.insert(mQuiz);
 

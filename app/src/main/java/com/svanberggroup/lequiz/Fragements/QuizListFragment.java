@@ -9,7 +9,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,8 +29,6 @@ import com.svanberggroup.lequiz.R;
 import java.util.List;
 
 public class QuizListFragment extends Fragment {
-
-    public static final int NEW_QUIZ_REQUEST_CODE = 1;
 
     private QuizViewModel mQuizViewModel;
 
@@ -74,7 +74,7 @@ public class QuizListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.new_quiz:
                 Intent intent = new Intent(getActivity(), EditQuizActivity.class);
-                startActivityForResult(intent, NEW_QUIZ_REQUEST_CODE);
+                startActivity(intent);
 
                 return true;
             default:
@@ -84,13 +84,28 @@ public class QuizListFragment extends Fragment {
 
     private class QuizViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView quizItemView;
+        private Quiz mQuiz;
+
+        private TextView quizItemText;
+        private Button quizEditButton;
 
         public QuizViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_quiz, parent, false));
 
-            quizItemView = (TextView) itemView.findViewById(R.id.quiz_title);
+            quizItemText = (TextView) itemView.findViewById(R.id.quiz_title);
+            quizEditButton = (Button) itemView.findViewById(R.id.edit_quiz_button);
+            quizEditButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), EditQuizActivity.class);
+                    intent.putExtra("")
+                    startActivity(intent);
+                }
+            });
+        }
 
+        public void bind (Quiz quiz) {
+            mQuiz = quiz;
         }
     }
 
@@ -114,9 +129,10 @@ public class QuizListFragment extends Fragment {
         public void onBindViewHolder(@NonNull QuizViewHolder holder, int position) {
             if(mQuizzes != null) {
                 Quiz quiz = mQuizzes.get(position);
-                holder.quizItemView.setText(quiz.getTitle());
+                holder.quizItemText.setText(quiz.getTitle());
+                holder.bind(quiz);
             } else {
-                holder.quizItemView.setText("NO Quizzes");
+                holder.quizItemText.setText("NO Quizzes");
             }
 
         }

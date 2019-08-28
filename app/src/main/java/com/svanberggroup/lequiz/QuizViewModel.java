@@ -26,4 +26,8 @@ public class QuizViewModel extends AndroidViewModel {
     public LiveData<List<Quiz>> getAllQuizzes() {
         return mAllQuizzes;
     }
+
+    public void insert(Quiz quiz) {
+        mQuizRepository.insert(quiz);
+    }
 }

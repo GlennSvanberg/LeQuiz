@@ -11,24 +11,19 @@ import java.util.List;
 
 public class QuizViewModel extends AndroidViewModel {
 
-    private List<Quiz> mAllQuizzes;
+    private QuizRepository mQuizRepository;
+
+    private LiveData<List<Quiz>> mAllQuizzes;
 
     public QuizViewModel(@NonNull Application application) {
         super(application);
 
-        List<Quiz> tempQuizzes = new ArrayList<>();
-        Quiz quiz = new Quiz();
-        quiz.setTitle("TEST");
-        tempQuizzes.add(quiz);
+        mQuizRepository = new QuizRepository(application);
+        mAllQuizzes = mQuizRepository.getAllQuizzes();
 
-        quiz = new Quiz();
-        quiz.setTitle("TEST 2");
-        tempQuizzes.add(quiz);
-
-        mAllQuizzes = tempQuizzes;
     }
 
-    public List<Quiz> getAllQuizzes() {
+    public LiveData<List<Quiz>> getAllQuizzes() {
         return mAllQuizzes;
     }
 }

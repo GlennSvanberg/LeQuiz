@@ -1,5 +1,6 @@
 package com.svanberggroup.lequiz;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -10,15 +11,18 @@ import java.util.List;
 @Dao
 public interface QuizDao {
 
-    @Query("SELECT * FROM quiz")
-    List<Quiz> getAll();
+    @Query("SELECT * FROM quiz_table")
+    LiveData<List<Quiz>> getAllQuizzes();
 
-    @Query("SELECT * FROM quiz WHERE mid IN (:quizIds)")
-    List<Quiz> loadAllByIds(int[] quizIds);
+    @Query("SELECT * FROM quiz_table WHERE mid IN (:quizIds)")
+    LiveData<List<Quiz>> loadAllByIds(int[] quizIds);
 
     @Insert
-    void insertAll(Quiz... quizzes);
+    void insert(Quiz quiz);
 
     @Delete
     void delete(Quiz quiz);
+
+    @Query("DELETE FROM quiz_table")
+    void deleteAll();
 }

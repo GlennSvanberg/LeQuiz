@@ -1,23 +1,34 @@
 package com.svanberggroup.lequiz;
 
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
-@Entity
+import java.util.UUID;
+
+@Entity(tableName = "quiz_table")
 public class Quiz {
+
     @PrimaryKey
-    private int mId;
+    @NonNull
+    @TypeConverters(UUIDConverter.class)
+    private UUID mId;
 
     @ColumnInfo(name="title")
     private String mTitle;
 
-    public int getId() {
+    public Quiz() {
+        mId = UUID.randomUUID();
+    }
+
+    public UUID getId() {
         return mId;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         mId = id;
     }
 

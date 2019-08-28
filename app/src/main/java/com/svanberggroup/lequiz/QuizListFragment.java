@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 
 public class QuizListFragment extends Fragment {
 
@@ -33,13 +33,18 @@ public class QuizListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_quiz_list, container, false);
 
         mQuizListRecyclerView = (RecyclerView) view.findViewById(R.id.quiz_recycler_view);
-        QuizListAdapter adapter = new QuizListAdapter(getActivity());
+        final QuizListAdapter adapter = new QuizListAdapter(getActivity());
         mQuizListRecyclerView.setAdapter(adapter);
         mQuizListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mQuizViewModel = ViewModelProviders.of(this).get(QuizViewModel.class);
         //Add observer with LiveData here
-        adapter.setQuizzes(mQuizViewModel.getAllQuizzes());
+        mQuizViewModel.getAllQuizzes().observe(getActivity(), new Observer<List<Quiz>>() {
+            @Override
+            public void onChanged(List<Quiz> quizzes) {
+                adapter.setQuizzes(quizzes);
+            }
+        });
 
         return view;
     }

@@ -1,10 +1,12 @@
-package com.svanberggroup.lequiz;
+package com.svanberggroup.lequiz.Database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+
+import com.svanberggroup.lequiz.Models.Quiz;
 
 import java.util.List;
 

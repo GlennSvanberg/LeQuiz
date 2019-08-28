@@ -1,4 +1,4 @@
-package com.svanberggroup.lequiz;
+package com.svanberggroup.lequiz.Fragements;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.svanberggroup.lequiz.Models.Quiz;
+import com.svanberggroup.lequiz.R;
+
 public class EditQuizFragment extends Fragment {
 
     private EditText mQuizTitleField;
@@ -17,6 +20,7 @@ public class EditQuizFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         Quiz quiz = new Quiz();
     }
 

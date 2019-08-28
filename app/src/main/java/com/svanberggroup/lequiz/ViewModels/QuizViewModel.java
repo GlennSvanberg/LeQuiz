@@ -1,10 +1,13 @@
-package com.svanberggroup.lequiz;
+package com.svanberggroup.lequiz.ViewModels;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
+import com.svanberggroup.lequiz.Database.QuizRepository;
+import com.svanberggroup.lequiz.Models.Quiz;
 
 import java.util.List;
 

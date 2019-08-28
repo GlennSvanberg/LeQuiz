@@ -1,4 +1,4 @@
-package com.svanberggroup.lequiz;
+package com.svanberggroup.lequiz.Database;
 
 import androidx.room.TypeConverter;
 

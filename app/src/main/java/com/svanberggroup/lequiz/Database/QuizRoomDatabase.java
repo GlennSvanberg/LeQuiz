@@ -1,4 +1,4 @@
-package com.svanberggroup.lequiz;
+package com.svanberggroup.lequiz.Database;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -8,6 +8,8 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
+
+import com.svanberggroup.lequiz.Models.Quiz;
 
 @Database(entities = {Quiz.class}, version = 1)
 public abstract class QuizRoomDatabase extends RoomDatabase {

@@ -1,4 +1,4 @@
-package com.svanberggroup.lequiz;
+package com.svanberggroup.lequiz.Models;
 
 
 import androidx.annotation.NonNull;
@@ -6,6 +6,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
+
+import com.svanberggroup.lequiz.Database.UUIDConverter;
 
 import java.util.UUID;
 

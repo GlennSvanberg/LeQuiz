@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">LeQuiz</string>
     <string name="new_quiz">New Quiz</string>
+    <string name="quiz_title_hint">Enter quiz title</string>
 </resources>

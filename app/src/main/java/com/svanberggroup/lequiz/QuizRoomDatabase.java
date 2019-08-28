@@ -41,13 +41,7 @@ public abstract class QuizRoomDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            mDao.deleteAll();
-            Quiz quiz = new Quiz();
-            quiz.setTitle("Test again");
-            mDao.insert(quiz);
-            quiz = new Quiz();
-            quiz.setTitle("Test again 2");
-            mDao.insert(quiz);
+
             return null;
         }
     }

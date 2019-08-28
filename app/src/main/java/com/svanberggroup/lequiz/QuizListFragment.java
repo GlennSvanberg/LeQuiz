@@ -26,6 +26,8 @@ import java.util.Observable;
 
 public class QuizListFragment extends Fragment {
 
+    public static final int NEW_QUIZ_REQUEST_CODE = 1;
+
     private QuizViewModel mQuizViewModel;
 
     private RecyclerView mQuizListRecyclerView;
@@ -69,9 +71,14 @@ public class QuizListFragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.new_quiz:
+                Intent intent = new Intent(getActivity(), EditQuizActivity.class);
+                startActivityForResult(intent, NEW_QUIZ_REQUEST_CODE);
+                /*  Enter a demo quiz without launching activity
+
                 Quiz quiz = new Quiz();
                 quiz.setTitle("TEST" + quiz.getId().toString());
                 mQuizViewModel.insert(quiz);
+                 */
 
                 return true;
             default:

@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.svanberggroup.lequiz.Activities.EditQuizActivity;
 import com.svanberggroup.lequiz.Models.Question;
 import com.svanberggroup.lequiz.Models.Quiz;
@@ -40,6 +41,7 @@ public class EditQuizFragment extends Fragment {
 
     private EditText mQuizTitleField;
     private RecyclerView mQuestionsRecyclerView;
+    private FloatingActionButton mNewQuestionFab;
 
     private QuizViewModel mQuizViewModel;
     private QuestionViewModel mQuestionViewModel;
@@ -153,13 +155,23 @@ public class EditQuizFragment extends Fragment {
 
             }
         });
-        Question q = new Question(mQuizId);
-        q.setTitle("First Question");
 
-        mQuestionViewModel.insert(q);
+
 
         mQuestionsRecyclerView = (RecyclerView) view.findViewById(R.id.questions_recycler_view);
         mQuestionsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        mNewQuestionFab = (FloatingActionButton) view.findViewById(R.id.new_question_fab);
+        mNewQuestionFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Question q = new Question(mQuizId);
+                q.setTitle("First Question" + q.getId());
+
+                mQuestionViewModel.insert(q);
+            }
+        });
+
 
         updateUI();
         return view;

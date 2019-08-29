@@ -11,6 +11,7 @@ import com.svanberggroup.lequiz.Models.Quiz;
 
 import java.util.List;
 
+
 public class QuizViewModel extends AndroidViewModel {
 
     private QuizRepository mQuizRepository;
@@ -28,6 +29,7 @@ public class QuizViewModel extends AndroidViewModel {
     public LiveData<List<Quiz>> getAllQuizzes() {
         return mAllQuizzes;
     }
+
 
     public void insert(Quiz quiz) {
         mQuizRepository.insert(quiz);

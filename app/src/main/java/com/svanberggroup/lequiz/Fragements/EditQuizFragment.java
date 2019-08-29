@@ -3,35 +3,46 @@ package com.svanberggroup.lequiz.Fragements;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.svanberggroup.lequiz.Models.Quiz;
 import com.svanberggroup.lequiz.R;
 import com.svanberggroup.lequiz.ViewModels.QuizViewModel;
 
+import java.util.List;
+import java.util.UUID;
+
 public class EditQuizFragment extends Fragment {
 
-    /**
-     * Required interface for hosting activities
-     */
-    public interface Callbacks {
-        void onQuizUpdated(Quiz quiz);
-    }
 
     private EditText mQuizTitleField;
 
     private QuizViewModel mQuizViewModel;
     private Quiz mQuiz;
+    private UUID mQuizId;
 
-    
+    private static final String ARG_QUIZ_ID = "quiz_id";
+
+
+    public static EditQuizFragment newInstance(UUID quizId) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_QUIZ_ID, quizId);
+
+        EditQuizFragment fragment = new EditQuizFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,9 +51,14 @@ public class EditQuizFragment extends Fragment {
 
         mQuizViewModel = ViewModelProviders.of(this).get(QuizViewModel.class);
 
-        mQuiz = new Quiz();
-        mQuizViewModel.insert(mQuiz);
 
+        if(getArguments().getSerializable(ARG_QUIZ_ID) == null) {
+            mQuiz = new Quiz();
+            mQuizViewModel.insert(mQuiz);
+        } else {
+            mQuizId = (UUID) getArguments().getSerializable(ARG_QUIZ_ID);
+            Log.i("TESTTESTTEST", "EditQuizFragment + received id: " + mQuizId);
+        }
 
 
     }
@@ -57,6 +73,21 @@ public class EditQuizFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_quiz, container, false);
+        mQuizViewModel = ViewModelProviders.of(this).get(QuizViewModel.class);
+
+        mQuizViewModel.getAllQuizzes().observe(getActivity(), new Observer<List<Quiz>>() {
+            @Override
+            public void onChanged(List<Quiz> quizzes) {
+                for(Quiz quiz : quizzes) {
+                    if(quiz.getId().equals(mQuizId)) {
+                        mQuiz = quiz;
+                        updateUI();
+                        return;
+                    }
+                }
+
+            }
+        });
 
         mQuizTitleField = (EditText) view.findViewById(R.id.quiz_title);
         mQuizTitleField.addTextChangedListener(new TextWatcher() {
@@ -78,5 +109,8 @@ public class EditQuizFragment extends Fragment {
         });
 
         return view;
+    }
+    private void updateUI() {
+        mQuizTitleField.setText(mQuiz.getTitle());
     }
 }

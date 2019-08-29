@@ -1,16 +1,24 @@
 package com.svanberggroup.lequiz.Activities;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.svanberggroup.lequiz.Fragements.EditQuizFragment;
 import com.svanberggroup.lequiz.Models.Quiz;
 
-public class EditQuizActivity extends SingleFragmentActivity implements EditQuizFragment.Callbacks {
+import java.util.UUID;
+
+public class EditQuizActivity extends SingleFragmentActivity {
+
+    public static final String EXTRA_QUIZ_ID = "com.svanberggroup.lequiz.quiz_id";
+
     @Override
     public EditQuizFragment createFragment() {
-        return new EditQuizFragment();
+        UUID quizId = (UUID) getIntent().getSerializableExtra(EXTRA_QUIZ_ID);
+        return EditQuizFragment.newInstance(quizId);
 
     }
 
@@ -19,8 +27,4 @@ public class EditQuizActivity extends SingleFragmentActivity implements EditQuiz
         super.onCreate(savedInstanceState);
     }
 
-    @Override
-    public void onQuizUpdated(Quiz quiz){
-
-    }
 }

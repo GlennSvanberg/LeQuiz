@@ -84,6 +84,8 @@ public class QuizListFragment extends Fragment {
 
     private class QuizViewHolder extends RecyclerView.ViewHolder {
 
+        public static final String EXTRA_QUIZ_ID = "com.svanberggroup.lequiz.quiz_id";
+
         private Quiz mQuiz;
 
         private TextView quizItemText;
@@ -98,7 +100,7 @@ public class QuizListFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getActivity(), EditQuizActivity.class);
-                    intent.putExtra("")
+                    intent.putExtra(EXTRA_QUIZ_ID, mQuiz.getId());
                     startActivity(intent);
                 }
             });

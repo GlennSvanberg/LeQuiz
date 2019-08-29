@@ -48,8 +48,6 @@ public class EditQuizFragment extends Fragment {
     private QuestionsAdapter mQuestionsAdapter;
 
     private Quiz mQuiz;
-    private UUID mQuizId;
-
     private List<Question> mQuestions;
 
     private static final String ARG_QUIZ_ID = "quiz_id";
@@ -76,12 +74,9 @@ public class EditQuizFragment extends Fragment {
             mQuiz = new Quiz();
             mQuizViewModel.insert(mQuiz);
         } else {
-            mQuizId = (UUID) getArguments().getSerializable(ARG_QUIZ_ID);
+            mQuiz = new Quiz();
+            mQuiz.setId((UUID) getArguments().getSerializable(ARG_QUIZ_ID));
         }
-
-
-
-
     }
 
     @Override
@@ -121,7 +116,7 @@ public class EditQuizFragment extends Fragment {
             @Override
             public void onChanged(List<Quiz> quizzes) {
                 for(Quiz quiz : quizzes) {
-                    if(quiz.getId().equals(mQuizId)) {
+                    if(quiz.getId().equals(mQuiz.getId())) {
                         mQuiz = quiz;
                         updateUI();
                         return;
@@ -135,7 +130,7 @@ public class EditQuizFragment extends Fragment {
             public void onChanged(List<Question> questions) {
                 mQuestions = new ArrayList<>();
                 for (Question question : questions) {
-                    if(question.getQuizId().equals(mQuizId)) {
+                    if(question.getQuizId().equals(mQuiz.getId())) {
                         mQuestions.add(question);
                     }
                 }
@@ -160,9 +155,7 @@ public class EditQuizFragment extends Fragment {
 
             }
         });
-
-
-
+        
         mQuestionsRecyclerView = (RecyclerView) view.findViewById(R.id.questions_recycler_view);
         mQuestionsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -170,7 +163,7 @@ public class EditQuizFragment extends Fragment {
         mNewQuestionFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Question q = new Question(mQuizId);
+                Question q = new Question(mQuiz.getId());
                 q.setTitle("First Question" + q.getId());
 
                 mQuestionViewModel.insert(q);

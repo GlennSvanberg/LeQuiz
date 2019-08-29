@@ -207,9 +207,10 @@ public class EditQuizFragment extends Fragment {
         @Override
         public void onClick(View view) {
 
-            Log.i("TESTTESTTEST", "EditQuizFragment QuestionHolder clicked");
-            //Intent intent = QuestionsPagerActivity.newIntent(getActivity(), mQuiz.getId(), mQuestion.getId());
-            //startActivity(intent);
+            Intent intent = new Intent(getActivity(), EditQuestionActivity.class);
+            intent.putExtra(EXTRA_QUESTION_ID, mQuestion.getId());
+            startActivity(intent);
+
         }
 
         public void bind(Question question) {

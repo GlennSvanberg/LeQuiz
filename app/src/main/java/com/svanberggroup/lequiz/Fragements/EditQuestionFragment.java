@@ -21,14 +21,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.svanberggroup.lequiz.Models.Answer;
 import com.svanberggroup.lequiz.Models.Question;
 import com.svanberggroup.lequiz.R;
 import com.svanberggroup.lequiz.ViewModels.AnswerViewModel;
 import com.svanberggroup.lequiz.ViewModels.QuestionViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,7 +47,7 @@ public class EditQuestionFragment extends Fragment {
     private RecyclerView mAnswersRecyclerView;
     private EditText mQuestionField;
     private Button mNewAnswerButton;
-    private AnswersAdapter mAdapter;
+    private AnswersAdapter mAnswersAdapter;
 
     private static final String ARG_QUESTION_ID = "question_id";
 
@@ -128,6 +131,32 @@ public class EditQuestionFragment extends Fragment {
             }
         });
 
+        mNewAnswerButton = (Button) view.findViewById(R.id.new_answer_button);
+        mNewAnswerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Answer answer = new Answer(mQuestion.getId());
+                mAnswerViewModel.insert(answer);
+                updateUI();
+                Toast.makeText(getActivity(), "Adding answer: " + answer.getId(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        mAnswersRecyclerView = (RecyclerView) view.findViewById(R.id.answers_recycler_view);
+        mAnswersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+/*
+        mAnswerViewModel.getAnswers(mQuestionId.toString()).observe(getActivity(), new Observer<List<Answer>>() {
+            @Override
+            public void onChanged(List<Answer> answers) {
+                mAnswers = answers;
+                updateUI();
+                return;
+            }
+        });
+        */
+        Answer a = new Answer(mQuestionId);
+        a.setTitle("TEST");
+        mAnswers = new ArrayList<>();
+        mAnswers.add(a);
 
         updateUI();
         return view;
@@ -136,6 +165,13 @@ public class EditQuestionFragment extends Fragment {
     private void updateUI(){
         if(mQuestion != null) {
             mQuestionField.setText(mQuestion.getTitle());
+        }
+        if(mAnswersAdapter == null) {
+            mAnswersAdapter = new AnswersAdapter(mAnswers);
+            mAnswersRecyclerView.setAdapter(mAnswersAdapter);
+        } else {
+            mAnswersAdapter.setAnswers(mAnswers);
+            mAnswersAdapter.notifyDataSetChanged();
         }
 
     }
@@ -161,7 +197,7 @@ public class EditQuestionFragment extends Fragment {
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    mAnswer.setTitle(charSequence.toString());
+                    mAnswer.setTitle("TEST"  + charSequence.toString());
                 }
 
                 @Override
@@ -182,7 +218,7 @@ public class EditQuestionFragment extends Fragment {
 
         public void bind(Answer answer) {
             mAnswer = answer;
-            mAnswerField.setText(mAnswer.getTitle());
+            mAnswerField.setText("TRO" + mAnswer.getTitle());
             //mCorrectAnswerSwitch.setChecked(mAnswer.isCorrect());
             // mCorrectAnswerSwitch.setText("sd");
         }
@@ -212,6 +248,10 @@ public class EditQuestionFragment extends Fragment {
 
         @Override
         public int getItemCount() {
+
+            if (mAnswers == null) {
+                return 0;
+            }
             return mAnswers.size();
         }
 

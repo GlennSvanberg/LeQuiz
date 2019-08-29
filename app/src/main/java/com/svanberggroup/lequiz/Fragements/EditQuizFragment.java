@@ -155,7 +155,7 @@ public class EditQuizFragment extends Fragment {
 
             }
         });
-        
+
         mQuestionsRecyclerView = (RecyclerView) view.findViewById(R.id.questions_recycler_view);
         mQuestionsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

@@ -133,7 +133,12 @@ public class EditQuizFragment extends Fragment {
         mQuestionViewModel.getAllQuestions().observe(getActivity(), new Observer<List<Question>>() {
             @Override
             public void onChanged(List<Question> questions) {
-                mQuestions = questions;
+                mQuestions = new ArrayList<>();
+                for (Question question : questions) {
+                    if(question.getQuizId().equals(mQuizId)) {
+                        mQuestions.add(question);
+                    }
+                }
                 updateUI();
             }
         });

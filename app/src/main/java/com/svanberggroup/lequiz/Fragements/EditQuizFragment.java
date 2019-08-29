@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +28,7 @@ import com.svanberggroup.lequiz.Activities.EditQuizActivity;
 import com.svanberggroup.lequiz.Models.Question;
 import com.svanberggroup.lequiz.Models.Quiz;
 import com.svanberggroup.lequiz.R;
+import com.svanberggroup.lequiz.ViewModels.QuestionViewModel;
 import com.svanberggroup.lequiz.ViewModels.QuizViewModel;
 
 import java.util.ArrayList;
@@ -40,6 +42,7 @@ public class EditQuizFragment extends Fragment {
     private RecyclerView mQuestionsRecyclerView;
 
     private QuizViewModel mQuizViewModel;
+    private QuestionViewModel mQuestionViewModel;
     private QuestionsAdapter mQuestionsAdapter;
 
     private Quiz mQuiz;
@@ -65,6 +68,7 @@ public class EditQuizFragment extends Fragment {
         setHasOptionsMenu(true);
 
         mQuizViewModel = ViewModelProviders.of(this).get(QuizViewModel.class);
+        mQuestionViewModel = ViewModelProviders.of(this).get(QuestionViewModel.class);
 
         if(getArguments().getSerializable(ARG_QUIZ_ID) == null) {
             mQuiz = new Quiz();
@@ -73,14 +77,9 @@ public class EditQuizFragment extends Fragment {
             mQuizId = (UUID) getArguments().getSerializable(ARG_QUIZ_ID);
         }
 
-        mQuestions = new ArrayList<>();
-        Question q = new Question();
-        q.setTitle("First Question");
-        mQuestions.add(q);
 
-        q = new Question();
-        q.setTitle("Second Question");
-        mQuestions.add(q);
+
+
     }
 
     @Override
@@ -129,6 +128,13 @@ public class EditQuizFragment extends Fragment {
 
             }
         });
+        mQuestionViewModel.getAllQuestions().observe(getActivity(), new Observer<List<Question>>() {
+            @Override
+            public void onChanged(List<Question> questions) {
+                mQuestions = questions;
+                updateUI();
+            }
+        });
 
         mQuizTitleField = (EditText) view.findViewById(R.id.quiz_title);
         mQuizTitleField.addTextChangedListener(new TextWatcher() {
@@ -147,6 +153,10 @@ public class EditQuizFragment extends Fragment {
 
             }
         });
+        Question q = new Question(mQuizId);
+        q.setTitle("First Question");
+
+        mQuestionViewModel.insert(q);
 
         mQuestionsRecyclerView = (RecyclerView) view.findViewById(R.id.questions_recycler_view);
         mQuestionsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -218,6 +228,9 @@ public class EditQuizFragment extends Fragment {
 
         @Override
         public int getItemCount() {
+            if(mQuestions == null) {
+                return 0;
+            }
             return mQuestions.size();
         }
 

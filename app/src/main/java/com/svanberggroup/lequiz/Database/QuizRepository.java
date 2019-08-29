@@ -24,7 +24,6 @@ public class QuizRepository {
     }
 
 
-
     public void delete(Quiz quiz) {
         new deleteAsyncTask(mQuizDao).execute(quiz);
     }
@@ -41,7 +40,6 @@ public class QuizRepository {
             return null;
         }
     }
-
 
 
 

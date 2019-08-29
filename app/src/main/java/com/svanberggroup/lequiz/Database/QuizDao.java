@@ -17,7 +17,11 @@ public interface QuizDao {
     @Query("SELECT * FROM quiz_table")
     LiveData<List<Quiz>> getAllQuizzes();
 
-    @Query("SELECT * FROM quiz_table WHERE mid IN (:quizIds)")
+    @Query("SELECT * FROM quiz_table")
+    LiveData<List<Quiz>> getQuizzes();
+
+
+    @Query("SELECT * FROM quiz_table WHERE id IN (:quizIds)")
     LiveData<List<Quiz>> loadAllByIds(int[] quizIds);
 
     @Insert
@@ -25,9 +29,6 @@ public interface QuizDao {
 
     @Delete
     void delete(Quiz quiz);
-
-    @Query("DELETE FROM quiz_table")
-    void deleteAll();
 
     @Update
     void update(Quiz quiz);

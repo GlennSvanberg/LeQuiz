@@ -117,16 +117,14 @@ public class EditQuizFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_quiz, container, false);
 
-        mQuizViewModel.getAllQuizzes().observe(getActivity(), new Observer<List<Quiz>>() {
+        mQuizViewModel.getQuiz(mQuiz.getId().toString()).observe(getActivity(), new Observer<Quiz>() {
             @Override
-            public void onChanged(List<Quiz> quizzes) {
-                for(Quiz quiz : quizzes) {
-                    if(quiz.getId().equals(mQuiz.getId())) {
-                        mQuiz = quiz;
-                        updateUI();
-                        return;
-                    }
-                }
+            public void onChanged(Quiz quiz) {
+                mQuiz = quiz;
+                updateUI();
+                return;
+
+
             }
         });
         mQuestionViewModel.getQuestions(mQuiz.getId().toString()).observe(getActivity(), new Observer<List<Question>>() {
@@ -163,8 +161,6 @@ public class EditQuizFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Question question = new Question(mQuiz.getId());
-                question.setTitle("First Question" + question.getId());
-
                 Intent intent = new Intent(getActivity(), EditQuestionActivity.class);
                 intent.putExtra(EXTRA_QUESTION_ID, question.getId());
                 startActivity(intent);

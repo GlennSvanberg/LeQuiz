@@ -10,6 +10,7 @@ import com.svanberggroup.lequiz.Database.QuizRepository;
 import com.svanberggroup.lequiz.Models.Quiz;
 
 import java.util.List;
+import java.util.UUID;
 
 
 public class QuizViewModel extends AndroidViewModel {
@@ -28,6 +29,10 @@ public class QuizViewModel extends AndroidViewModel {
 
     public LiveData<List<Quiz>> getAllQuizzes() {
         return mAllQuizzes;
+    }
+
+    public LiveData<Quiz> getQuiz(String quizId) {
+        return mQuizRepository.getQuiz(quizId);
     }
 
 

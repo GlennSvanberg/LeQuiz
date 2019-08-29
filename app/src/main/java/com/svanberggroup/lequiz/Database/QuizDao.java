@@ -17,8 +17,8 @@ public interface QuizDao {
     @Query("SELECT * FROM quiz_table")
     LiveData<List<Quiz>> getAllQuizzes();
 
-    @Query("SELECT * FROM quiz_table")
-    LiveData<List<Quiz>> getQuizzes();
+    @Query("SELECT * FROM quiz_table WHERE id LIKE (:quizId)")
+    LiveData<Quiz> getQuiz(String quizId);
 
 
     @Query("SELECT * FROM quiz_table WHERE id IN (:quizIds)")

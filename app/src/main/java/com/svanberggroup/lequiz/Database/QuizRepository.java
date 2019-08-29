@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import com.svanberggroup.lequiz.Models.Quiz;
 
 import java.util.List;
+import java.util.UUID;
 
 public class QuizRepository {
     private QuizDao mQuizDao;
@@ -23,10 +24,14 @@ public class QuizRepository {
         return mAllQuizzes;
     }
 
+    public LiveData<Quiz> getQuiz(String quizId) {
+        return mQuizDao.getQuiz(quizId);
+    }
 
     public void delete(Quiz quiz) {
         new deleteAsyncTask(mQuizDao).execute(quiz);
     }
+
     private static class deleteAsyncTask extends AsyncTask<Quiz, Void, Void>{
 
         private QuizDao mAsyncTaskDao;

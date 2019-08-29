@@ -15,10 +15,10 @@ import java.util.List;
 @Dao
 public interface AnswerDao {
     @Query("SELECT * FROM answer_table")
-    LiveData<List<Answer>> getAllAnswerss();
+    LiveData<List<Answer>> getAllAnswers();
 
-    @Query("SELECT * FROM answer_table WHERE id IN (:questionIds)")
-    LiveData<List<Answer>> getAnswers(String[] questionIds);
+    @Query("SELECT * FROM answer_table WHERE id LIKE (:questionId)")
+    LiveData<List<Answer>> getAnswers(String questionId);
 
     @Insert
     void insert(Answer answer);

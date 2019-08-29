@@ -20,6 +20,9 @@ public interface QuestionDao {
     @Query("SELECT * FROM question_table WHERE quiz_id LIKE :quizId")
     LiveData<List<Question>> getQuestions(String quizId);
 
+    @Query("SELECT * FROM question_table WHERE id LIKE :questionId")
+    LiveData<Question> getQuestion(String questionId);
+
     @Insert
     void insert(Question question);
 

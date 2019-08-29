@@ -28,10 +28,14 @@ public class QuestionRepository {
     public LiveData<List<Question>> getQuestions(String quizId) {
         return mQuestionDao.getQuestions(quizId);
     }
+    public LiveData<Question> getQuestion(String questionId) {
+        return mQuestionDao.getQuestion(questionId);
+    }
 
     public void delete(Question question) {
         new deleteAsyncTask(mQuestionDao).execute(question);
     }
+
     private static class deleteAsyncTask extends AsyncTask<Question, Void, Void> {
 
         private QuestionDao mAsyncTaskDao;

@@ -7,12 +7,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.svanberggroup.lequiz.Database.QuestionRepository;
-import com.svanberggroup.lequiz.Database.QuizRepository;
 import com.svanberggroup.lequiz.Models.Question;
-import com.svanberggroup.lequiz.Models.Quiz;
 
 import java.util.List;
-import java.util.UUID;
 
 public class QuestionViewModel extends AndroidViewModel {
     private QuestionRepository mQuestionRepository;
@@ -34,6 +31,10 @@ public class QuestionViewModel extends AndroidViewModel {
     public LiveData<List<Question>> getQuestions(String quizId) {
 
         return mQuestionRepository.getQuestions(quizId);
+    }
+    public LiveData<Question> getQuestion(String questionId) {
+
+        return mQuestionRepository.getQuestion(questionId);
     }
 
     public void insert(Question question) {

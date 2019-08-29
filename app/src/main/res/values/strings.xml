@@ -3,4 +3,6 @@
     <string name="new_quiz">New Quiz</string>
     <string name="quiz_title_hint">Enter quiz title</string>
     <string name="delete_quiz">Delete Quiz</string>
+    <string name="add_answer">Add Answer</string>
+    <string name="question_title_label">Question</string>
 </resources>

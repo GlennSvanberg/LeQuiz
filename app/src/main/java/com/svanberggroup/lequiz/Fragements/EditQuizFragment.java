@@ -25,10 +25,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.svanberggroup.lequiz.Activities.EditQuestionActivity;
 import com.svanberggroup.lequiz.Activities.EditQuizActivity;
+import com.svanberggroup.lequiz.Models.Answer;
 import com.svanberggroup.lequiz.Models.Question;
 import com.svanberggroup.lequiz.Models.Quiz;
 import com.svanberggroup.lequiz.R;
+import com.svanberggroup.lequiz.ViewModels.AnswerViewModel;
 import com.svanberggroup.lequiz.ViewModels.QuestionViewModel;
 import com.svanberggroup.lequiz.ViewModels.QuizViewModel;
 
@@ -49,8 +52,10 @@ public class EditQuizFragment extends Fragment {
 
     private Quiz mQuiz;
     private List<Question> mQuestions;
+    private List<Answer> mAnswers;
 
     private static final String ARG_QUIZ_ID = "quiz_id";
+    public static final String EXTRA_QUESTION_ID = "com.svanberggroup.lequiz.question_id";
 
 
     public static EditQuizFragment newInstance(UUID quizId) {
@@ -69,6 +74,7 @@ public class EditQuizFragment extends Fragment {
 
         mQuizViewModel = ViewModelProviders.of(this).get(QuizViewModel.class);
         mQuestionViewModel = ViewModelProviders.of(this).get(QuestionViewModel.class);
+
 
         if(getArguments().getSerializable(ARG_QUIZ_ID) == null) {
             mQuiz = new Quiz();
@@ -110,7 +116,6 @@ public class EditQuizFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_quiz, container, false);
-        mQuizViewModel = ViewModelProviders.of(this).get(QuizViewModel.class);
 
         mQuizViewModel.getAllQuizzes().observe(getActivity(), new Observer<List<Quiz>>() {
             @Override
@@ -122,7 +127,6 @@ public class EditQuizFragment extends Fragment {
                         return;
                     }
                 }
-
             }
         });
         mQuestionViewModel.getQuestions(mQuiz.getId().toString()).observe(getActivity(), new Observer<List<Question>>() {
@@ -132,7 +136,7 @@ public class EditQuizFragment extends Fragment {
                 updateUI();
             }
         });
-        
+
         mQuizTitleField = (EditText) view.findViewById(R.id.quiz_title);
         mQuizTitleField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -158,13 +162,16 @@ public class EditQuizFragment extends Fragment {
         mNewQuestionFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Question q = new Question(mQuiz.getId());
-                q.setTitle("First Question" + q.getId());
+                Question question = new Question(mQuiz.getId());
+                question.setTitle("First Question" + question.getId());
 
-                mQuestionViewModel.insert(q);
+                Intent intent = new Intent(getActivity(), EditQuestionActivity.class);
+                intent.putExtra(EXTRA_QUESTION_ID, question.getId());
+                startActivity(intent);
+
+                mQuestionViewModel.insert(question);
             }
         });
-
 
         updateUI();
         return view;
@@ -208,6 +215,8 @@ public class EditQuizFragment extends Fragment {
         public void bind(Question question) {
             mQuestion = question;
             mQuestionTextView.setText(mQuestion.getTitle());
+            // TEST
+
         }
     }
     private class QuestionsAdapter extends RecyclerView.Adapter<QuestionsHolder> {

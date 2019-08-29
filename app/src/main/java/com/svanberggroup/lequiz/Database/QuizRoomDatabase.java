@@ -9,14 +9,16 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.svanberggroup.lequiz.Models.Answer;
 import com.svanberggroup.lequiz.Models.Question;
 import com.svanberggroup.lequiz.Models.Quiz;
 
-@Database(entities = {Quiz.class, Question.class}, version = 1)
+@Database(entities = {Quiz.class, Question.class, Answer.class}, version = 1)
 public abstract class QuizRoomDatabase extends RoomDatabase {
 
     public abstract QuizDao quizDao();
     public abstract QuestionDao questionDao();
+    public abstract AnswerDao answerDao();
 
     private static volatile QuizRoomDatabase INSTANCE;
 
@@ -40,16 +42,17 @@ public abstract class QuizRoomDatabase extends RoomDatabase {
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
         private final QuizDao mQuizDao;
         private final QuestionDao mQuestionDao;
+        private final AnswerDao mAnswerDao;
 
         PopulateDbAsync(QuizRoomDatabase db) {
             mQuizDao = db.quizDao();
             mQuestionDao = db.questionDao();
+            mAnswerDao = db.answerDao();
 
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-
             return null;
         }
     }

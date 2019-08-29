@@ -19,6 +19,9 @@
         <activity android:name=".Activities.EditQuizActivity">
 
         </activity>
+        <activity android:name=".Activities.EditQuestionActivity">
+
+        </activity>
     </application>
 
 </manifest>

@@ -1,10 +1,14 @@
 package com.svanberggroup.lequiz.Fragements;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -16,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.svanberggroup.lequiz.Activities.EditQuizActivity;
 import com.svanberggroup.lequiz.Models.Quiz;
 import com.svanberggroup.lequiz.R;
 import com.svanberggroup.lequiz.ViewModels.QuizViewModel;
@@ -57,10 +62,30 @@ public class EditQuizFragment extends Fragment {
             mQuizViewModel.insert(mQuiz);
         } else {
             mQuizId = (UUID) getArguments().getSerializable(ARG_QUIZ_ID);
-            Log.i("TESTTESTTEST", "EditQuizFragment + received id: " + mQuizId);
         }
 
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_edit_quiz,menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.delete_quiz:
+
+                mQuizViewModel.delete(mQuiz);
+                Toast.makeText(getActivity(), mQuiz.getTitle() + " has been deleted", Toast.LENGTH_SHORT).show();
+                getActivity().finish();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -99,7 +124,6 @@ public class EditQuizFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 mQuiz.setTitle(charSequence.toString());
-                mQuizViewModel.update(mQuiz);
             }
 
             @Override

@@ -38,4 +38,8 @@ public class QuizViewModel extends AndroidViewModel {
     public void update(Quiz quiz) {
         mQuizRepository.update(quiz);
     }
+
+    public void delete(Quiz quiz) {
+        mQuizRepository.delete(quiz);
+    }
 }

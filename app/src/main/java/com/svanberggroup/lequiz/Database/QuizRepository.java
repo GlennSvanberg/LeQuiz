@@ -23,6 +23,28 @@ public class QuizRepository {
         return mAllQuizzes;
     }
 
+
+
+    public void delete(Quiz quiz) {
+        new deleteAsyncTask(mQuizDao).execute(quiz);
+    }
+    private static class deleteAsyncTask extends AsyncTask<Quiz, Void, Void>{
+
+        private QuizDao mAsyncTaskDao;
+
+        public deleteAsyncTask(QuizDao dao) {
+            mAsyncTaskDao = dao;
+        }
+        @Override
+        protected Void doInBackground(Quiz... quizzes) {
+            mAsyncTaskDao.delete(quizzes[0]);
+            return null;
+        }
+    }
+
+
+
+
     public void insert(Quiz quiz) {
         new insertAsyncTask(mQuizDao).execute(quiz);
     }
@@ -39,6 +61,9 @@ public class QuizRepository {
             return null;
         }
     }
+
+
+
 
     public void update(Quiz quiz) {
         new updateAsyncTask(mQuizDao).execute(quiz);

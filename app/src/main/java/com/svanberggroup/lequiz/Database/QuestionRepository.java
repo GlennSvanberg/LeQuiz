@@ -25,6 +25,9 @@ public class QuestionRepository {
         return mAllQuestions;
     }
 
+    public LiveData<List<Question>> getQuestions(String quizId) {
+        return mQuestionDao.getQuestions(quizId);
+    }
 
     public void delete(Question question) {
         new deleteAsyncTask(mQuestionDao).execute(question);

@@ -17,8 +17,8 @@ public interface QuestionDao {
     @Query("SELECT * FROM question_table")
     LiveData<List<Question>> getAllQuestions();
 
-    @Query("SELECT * FROM question_table WHERE id IN (:quizIds)")
-    LiveData<List<Question>> getQuestions(String[] quizIds);
+    @Query("SELECT * FROM question_table WHERE quiz_id LIKE :quizId")
+    LiveData<List<Question>> getQuestions(String quizId);
 
     @Insert
     void insert(Question question);

@@ -125,19 +125,14 @@ public class EditQuizFragment extends Fragment {
 
             }
         });
-        mQuestionViewModel.getAllQuestions().observe(getActivity(), new Observer<List<Question>>() {
+        mQuestionViewModel.getQuestions(mQuiz.getId().toString()).observe(getActivity(), new Observer<List<Question>>() {
             @Override
             public void onChanged(List<Question> questions) {
-                mQuestions = new ArrayList<>();
-                for (Question question : questions) {
-                    if(question.getQuizId().equals(mQuiz.getId())) {
-                        mQuestions.add(question);
-                    }
-                }
+                mQuestions = questions;
                 updateUI();
             }
         });
-
+        
         mQuizTitleField = (EditText) view.findViewById(R.id.quiz_title);
         mQuizTitleField.addTextChangedListener(new TextWatcher() {
             @Override

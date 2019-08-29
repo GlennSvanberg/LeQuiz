@@ -31,8 +31,9 @@ public class QuestionViewModel extends AndroidViewModel {
         return mAllQuestions;
     }
 
-    public LiveData<List<Question>> getQuestions(UUID quizId) {
-        return mAllQuestions;
+    public LiveData<List<Question>> getQuestions(String quizId) {
+
+        return mQuestionRepository.getQuestions(quizId);
     }
 
     public void insert(Question question) {

@@ -96,8 +96,9 @@ public class EditQuizFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.delete_quiz:
 
-                mQuizViewModel.delete(mQuiz);
                 Toast.makeText(getActivity(), mQuiz.getTitle() + " has been deleted", Toast.LENGTH_SHORT).show();
+                mQuizViewModel.delete(mQuiz);
+
                 getActivity().finish();
 
                 return true;
@@ -109,7 +110,10 @@ public class EditQuizFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mQuizViewModel.update(mQuiz);
+        if(mQuiz != null) {
+            mQuizViewModel.update(mQuiz);
+        }
+
     }
 
     @Nullable

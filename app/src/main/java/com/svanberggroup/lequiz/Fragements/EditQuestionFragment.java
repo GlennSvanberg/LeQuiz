@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -11,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.svanberggroup.lequiz.Models.Answer;
 import com.svanberggroup.lequiz.Models.Question;
-import com.svanberggroup.lequiz.Models.Quiz;
 import com.svanberggroup.lequiz.R;
 import com.svanberggroup.lequiz.ViewModels.AnswerViewModel;
 import com.svanberggroup.lequiz.ViewModels.QuestionViewModel;
@@ -65,12 +68,36 @@ public class EditQuestionFragment extends Fragment {
         mQuestionId = (UUID) getArguments().getSerializable(ARG_QUESTION_ID);
 
     }
+
     @Override
     public void onDetach() {
         super.onDetach();
-        mQuestionViewModel.update(mQuestion);
+        if(mQuestion != null) {
+            mQuestionViewModel.update(mQuestion);
+        }
+
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_edit_question,menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.delete_question:
+
+                Toast.makeText(getActivity(), mQuestion.getTitle() + " has been deleted", Toast.LENGTH_SHORT).show();
+                mQuestionViewModel.delete(mQuestion);
+
+                getActivity().finish();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

@@ -5,4 +5,5 @@
     <string name="delete_quiz">Delete Quiz</string>
     <string name="add_answer">Add Answer</string>
     <string name="question_title_label">Question</string>
+    <string name="delete_question">Delete Question</string>
 </resources>

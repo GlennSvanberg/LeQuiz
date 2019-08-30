@@ -58,13 +58,18 @@ public class AnswerRepository {
             mAsyncTaskDao = dao;
         }
         @Override
-        protected Void doInBackground(final Answer... params) {
-            mAsyncTaskDao.insert(params[0]);
+        protected Void doInBackground(Answer... answers) {
+            mAsyncTaskDao.insert(answers[0]);
             return null;
         }
     }
 
+    public void update(List<Answer> answers) {
+        for(Answer answer : answers) {
+            new AnswerRepository.updateAsyncTask(mAnswerDao).execute(answer);
+        }
 
+    }
     public void update(Answer answer) {
         new AnswerRepository.updateAsyncTask(mAnswerDao).execute(answer);
     }

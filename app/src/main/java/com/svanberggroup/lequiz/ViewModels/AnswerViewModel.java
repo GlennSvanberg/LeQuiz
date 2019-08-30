@@ -41,6 +41,10 @@ public class AnswerViewModel extends AndroidViewModel {
         mAnswerRepository.update(answer);
     }
 
+    public void update(List<Answer> answers) {
+        mAnswerRepository.update(answers);
+    }
+
     public void delete(Answer answer) {
         mAnswerRepository.delete(answer);
     }

@@ -17,7 +17,7 @@ public interface AnswerDao {
     @Query("SELECT * FROM answer_table")
     LiveData<List<Answer>> getAllAnswers();
 
-    @Query("SELECT * FROM answer_table WHERE id LIKE (:questionId)")
+    @Query("SELECT * FROM answer_table WHERE question_id LIKE (:questionId)")
     LiveData<List<Answer>> getAnswers(String questionId);
 
     @Insert

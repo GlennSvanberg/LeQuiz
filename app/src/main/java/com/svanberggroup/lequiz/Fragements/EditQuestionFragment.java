@@ -3,6 +3,7 @@ package com.svanberggroup.lequiz.Fragements;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -69,6 +70,7 @@ public class EditQuestionFragment extends Fragment {
         mAnswerViewModel = ViewModelProviders.of(this).get(AnswerViewModel.class);
 
         mQuestionId = (UUID) getArguments().getSerializable(ARG_QUESTION_ID);
+        Log.i("TESTTESTTEST", "EditQuestionFragment on Create mQuestionId = " + mQuestionId);
 
     }
 
@@ -77,6 +79,9 @@ public class EditQuestionFragment extends Fragment {
         super.onDetach();
         if(mQuestion != null) {
             mQuestionViewModel.update(mQuestion);
+        }
+        if(mAnswers != null) {
+            mAnswerViewModel.update(mAnswers);
         }
 
     }
@@ -138,25 +143,19 @@ public class EditQuestionFragment extends Fragment {
                 Answer answer = new Answer(mQuestion.getId());
                 mAnswerViewModel.insert(answer);
                 updateUI();
-                Toast.makeText(getActivity(), "Adding answer: " + answer.getId(), Toast.LENGTH_SHORT).show();
             }
         });
         mAnswersRecyclerView = (RecyclerView) view.findViewById(R.id.answers_recycler_view);
         mAnswersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-/*
+
         mAnswerViewModel.getAnswers(mQuestionId.toString()).observe(getActivity(), new Observer<List<Answer>>() {
             @Override
             public void onChanged(List<Answer> answers) {
                 mAnswers = answers;
                 updateUI();
-                return;
             }
         });
-        */
-        Answer a = new Answer(mQuestionId);
-        a.setTitle("TEST");
-        mAnswers = new ArrayList<>();
-        mAnswers.add(a);
+
 
         updateUI();
         return view;
@@ -197,7 +196,7 @@ public class EditQuestionFragment extends Fragment {
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    mAnswer.setTitle("TEST"  + charSequence.toString());
+                    mAnswer.setTitle(charSequence.toString());
                 }
 
                 @Override
@@ -218,7 +217,7 @@ public class EditQuestionFragment extends Fragment {
 
         public void bind(Answer answer) {
             mAnswer = answer;
-            mAnswerField.setText("TRO" + mAnswer.getTitle());
+            mAnswerField.setText(mAnswer.getTitle());
             //mCorrectAnswerSwitch.setChecked(mAnswer.isCorrect());
             // mCorrectAnswerSwitch.setText("sd");
         }

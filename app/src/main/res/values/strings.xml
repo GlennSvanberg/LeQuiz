@@ -6,6 +6,6 @@
     <string name="add_answer">Add Answer</string>
     <string name="question_title_label">Question</string>
     <string name="delete_question">Delete Question</string>
-    <string name="correct_answer_label">Correct answer</string>
-    <string name="wrong_answer_label">Right answer</string>
+    <string name="correct_answer_label">Right answer</string>
+    <string name="wrong_answer_label">Wrong answer</string>
 </resources>

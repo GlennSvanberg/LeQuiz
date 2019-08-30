@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -143,6 +144,7 @@ public class EditQuestionFragment extends Fragment {
             public void onClick(View view) {
                 Answer answer = new Answer(mQuestion.getId());
                 mAnswerViewModel.insert(answer);
+                storeQuestion();
                 updateUI();
             }
         });
@@ -191,6 +193,7 @@ public class EditQuestionFragment extends Fragment {
         private EditText mAnswerField;
         private TextView mAnswerLabel;
         private Switch mCorrectAnswerSwitch;
+        private ImageButton mDeleteAnswer;
 
         public AnswersHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_answer, parent, false));
@@ -223,6 +226,14 @@ public class EditQuestionFragment extends Fragment {
                     mAnswer.setCorrect(b);
                     updateLabel();
 
+                }
+            });
+            mDeleteAnswer = (ImageButton) itemView.findViewById(R.id.delete_answer_button);
+            mDeleteAnswer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mAnswerViewModel.delete(mAnswer);
+                    updateUI();
                 }
             });
 

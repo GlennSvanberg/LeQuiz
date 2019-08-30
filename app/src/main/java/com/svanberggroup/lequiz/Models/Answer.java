@@ -30,6 +30,9 @@ public class Answer {
     @ColumnInfo(name = "title")
     private String mTitle;
 
+    @ColumnInfo(name = "correct")
+    private Boolean mCorrect = false;
+
     public Answer(UUID questionId) {
         mId = UUID.randomUUID();
         mQuestionId = questionId;
@@ -57,5 +60,12 @@ public class Answer {
 
     public void setQuestionId(UUID questionId) {
         mQuestionId = questionId;
+    }
+
+    public Boolean isCorrect() {
+        return mCorrect;
+    }
+    public void setCorrect(Boolean correct) {
+        mCorrect = correct;
     }
 }

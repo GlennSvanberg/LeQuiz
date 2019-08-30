@@ -25,14 +25,12 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.svanberggroup.lequiz.Models.Answer;
 import com.svanberggroup.lequiz.Models.Question;
 import com.svanberggroup.lequiz.R;
 import com.svanberggroup.lequiz.ViewModels.AnswerViewModel;
 import com.svanberggroup.lequiz.ViewModels.QuestionViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,6 +46,7 @@ public class EditQuestionFragment extends Fragment {
     private RecyclerView mAnswersRecyclerView;
     private EditText mQuestionField;
     private Button mNewAnswerButton;
+
     private AnswersAdapter mAnswersAdapter;
 
     private static final String ARG_QUESTION_ID = "question_id";
@@ -70,7 +69,8 @@ public class EditQuestionFragment extends Fragment {
         mAnswerViewModel = ViewModelProviders.of(this).get(AnswerViewModel.class);
 
         mQuestionId = (UUID) getArguments().getSerializable(ARG_QUESTION_ID);
-        Log.i("TESTTESTTEST", "EditQuestionFragment on Create mQuestionId = " + mQuestionId);
+
+
 
     }
 
@@ -205,21 +205,35 @@ public class EditQuestionFragment extends Fragment {
                 }
             });
 
+
             mCorrectAnswerSwitch = (Switch) itemView.findViewById(R.id.correct_answer_switch);
             mCorrectAnswerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    //mAnswer.setCorrect(b);
+                    mAnswerViewModel.update(mAnswer);
+                    mAnswer.setCorrect(b);
+                    updateLabel();
+
                 }
             });
 
         }
 
+
         public void bind(Answer answer) {
             mAnswer = answer;
             mAnswerField.setText(mAnswer.getTitle());
-            //mCorrectAnswerSwitch.setChecked(mAnswer.isCorrect());
-            // mCorrectAnswerSwitch.setText("sd");
+            mCorrectAnswerSwitch.setChecked(mAnswer.isCorrect());
+            updateLabel();
+        }
+
+        private void updateLabel() {
+            if(mAnswer.isCorrect()) {
+                mAnswerLabel.setText(getString(R.string.correct_answer_label));
+            } else {
+                mAnswerLabel.setText(getString(R.string.wrong_answer_label));
+            }
+
         }
 
     }

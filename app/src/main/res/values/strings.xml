@@ -8,4 +8,5 @@
     <string name="delete_question">Delete Question</string>
     <string name="correct_answer_label">Right answer</string>
     <string name="wrong_answer_label">Wrong answer</string>
+    <string name="quiz_title_label">Quiz title</string>
 </resources>

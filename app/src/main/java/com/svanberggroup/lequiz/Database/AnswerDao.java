@@ -8,7 +8,6 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.svanberggroup.lequiz.Models.Answer;
-import com.svanberggroup.lequiz.Models.Question;
 
 import java.util.List;
 

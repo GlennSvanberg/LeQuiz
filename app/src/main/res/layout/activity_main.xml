@@ -6,11 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".Activities.MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/quiz_list_recyclerview"
+    <TextView
+        android:padding="40dp"
+        android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/darker_gray"
-        tools:listitem="@layout/quiz_list_item" />
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/le_quiz"
+        android:textSize="30sp"
+        android:textAlignment="center"
+        android:background="@color/colorPrimary"
+        android:textAllCaps="true"/>
+
+    <Button
+        style="@style/MainButton"
+        android:text="@string/create"
+        android:id="@+id/play_quiz_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView"
+        android:layout_margin="16dp"
+        android:padding="30dp">
+
+    </Button>
+
+    <Button
+        style="@style/MainButton"
+        android:background="@color/colorAccent"
+        android:text="@string/play"
+        android:id="@+id/edit_quiz_button"
+        android:layout_margin="16dp"
+        android:padding="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/play_quiz_button">
+
+    </Button>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

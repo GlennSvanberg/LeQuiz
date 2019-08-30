@@ -8,9 +8,12 @@
     <string name="delete_question">Delete Question</string>
     <string name="correct_answer_label">Right answer</string>
     <string name="wrong_answer_label">Wrong answer</string>
-    <string name="quiz_title_label">Quiz title</string>
+    <string name="quiz_title_label">Quiz Name</string>
     <string name="le_quiz">Le Quiz</string>
     <string name="edit_quiz">Edit Quiz</string>
     <string name="create">Create</string>
     <string name="play">Play</string>
+    <string name="quiz">Edit Quiz</string>
+    <string name="questions">Questions</string>
+    <string name="answer_count">Number of answers:</string>
 </resources>

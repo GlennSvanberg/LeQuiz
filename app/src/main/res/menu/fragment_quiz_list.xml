@@ -4,5 +4,5 @@
     <item android:id="@+id/new_quiz"
         android:icon="@drawable/ic_menu_add"
         android:title="@string/new_quiz"
-        app:showAsAction="ifRoom|withText"></item>
+        app:showAsAction="withText"></item>
 </menu>

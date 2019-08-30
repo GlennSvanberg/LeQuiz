@@ -48,6 +48,7 @@ public class EditQuizFragment extends Fragment {
 
     private QuizViewModel mQuizViewModel;
     private QuestionViewModel mQuestionViewModel;
+    private AnswerViewModel mAnswerViewModel;
     private QuestionsAdapter mQuestionsAdapter;
 
     private Quiz mQuiz;
@@ -74,6 +75,7 @@ public class EditQuizFragment extends Fragment {
 
         mQuizViewModel = ViewModelProviders.of(this).get(QuizViewModel.class);
         mQuestionViewModel = ViewModelProviders.of(this).get(QuestionViewModel.class);
+        mAnswerViewModel = ViewModelProviders.of(this).get(AnswerViewModel.class);
 
 
         if(getArguments().getSerializable(ARG_QUIZ_ID) == null) {
@@ -138,10 +140,27 @@ public class EditQuizFragment extends Fragment {
         mQuestionViewModel.getQuestions(mQuiz.getId().toString()).observe(getActivity(), new Observer<List<Question>>() {
             @Override
             public void onChanged(List<Question> questions) {
+
                 mQuestions = questions;
                 updateUI();
             }
         });
+
+        // Should get called every time mQuestions is updated
+        mAnswerViewModel.getAllAnswers().observe(getActivity(), new Observer<List<Answer>>() {
+            @Override
+            public void onChanged(List<Answer> answers) {
+                for(Answer answer : answers) {
+                    for (Question question : mQuestions) {
+                        if(answer.getQuestionId().equals(question.getId())) {
+                            question.addAnswer(answer);
+                            return;
+                        }
+                    }
+                }
+            }
+        });
+
 
         mQuizTitleField = (EditText) view.findViewById(R.id.quiz_title);
         mQuizTitleField.addTextChangedListener(new TextWatcher() {
@@ -208,12 +227,14 @@ public class EditQuizFragment extends Fragment {
         private Question mQuestion;
 
         private TextView mQuestionTextView;
+        private TextView mAnswerCountTextView;
 
         public QuestionsHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_question,parent,false));
             itemView.setOnClickListener(this);
 
             mQuestionTextView = (TextView) itemView.findViewById(R.id.question_title);
+            mAnswerCountTextView = (TextView) itemView.findViewById(R.id.question_number_of_answers_label);
         }
 
         @Override
@@ -228,6 +249,12 @@ public class EditQuizFragment extends Fragment {
         public void bind(Question question) {
             mQuestion = question;
             mQuestionTextView.setText(mQuestion.getTitle());
+            if(mQuestion.getAnswers() != null) {
+                mAnswerCountTextView.setText(getString(R.string.answer_count) + mQuestion.getAnswers().size());
+            } else {
+                mAnswerCountTextView.setText(getString(R.string.answer_count) + 0);
+            }
+
             // TEST
 
         }

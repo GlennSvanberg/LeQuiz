@@ -4,11 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import com.svanberggroup.lequiz.Database.UUIDConverter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static androidx.room.ForeignKey.CASCADE;
@@ -29,6 +32,9 @@ public class Question {
 
     @ColumnInfo(name = "title")
     private String mTitle;
+
+    @Ignore
+    private List<Answer> mAnswers;
 
     public Question(UUID quizId) {
         mId = UUID.randomUUID();
@@ -54,8 +60,25 @@ public class Question {
     public UUID getQuizId() {
         return mQuizId;
     }
+
     public void setQuizId(UUID quizId) {
         mQuizId = quizId;
+    }
+
+    public List<Answer> getAnswers() {
+        return mAnswers;
+    }
+
+    public void addAnswer(Answer answer) {
+        if(mAnswers == null) {
+            mAnswers = new ArrayList<>();
+        }
+        mAnswers.add(answer);
+
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        mAnswers = answers;
     }
 }
 

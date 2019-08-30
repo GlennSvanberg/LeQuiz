@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.svanberggroup.lequiz.Activities.EditQuizActivity;
 import com.svanberggroup.lequiz.Models.Quiz;
 import com.svanberggroup.lequiz.ViewModels.QuizViewModel;
@@ -33,6 +35,7 @@ public class QuizListFragment extends Fragment {
     private QuizViewModel mQuizViewModel;
 
     private RecyclerView mQuizListRecyclerView;
+    private FloatingActionButton mNewQuizFab;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,6 +59,15 @@ public class QuizListFragment extends Fragment {
             @Override
             public void onChanged(List<Quiz> quizzes) {
                 adapter.setQuizzes(quizzes);
+            }
+        });
+
+        mNewQuizFab = view.findViewById(R.id.new_quiz_fab);
+        mNewQuizFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), EditQuizActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -89,13 +101,13 @@ public class QuizListFragment extends Fragment {
         private Quiz mQuiz;
 
         private TextView quizItemText;
-        private Button quizEditButton;
+        private ImageButton quizEditButton;
 
         public QuizViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_quiz, parent, false));
 
             quizItemText = (TextView) itemView.findViewById(R.id.quiz_title);
-            quizEditButton = (Button) itemView.findViewById(R.id.edit_quiz_button);
+            quizEditButton = (ImageButton) itemView.findViewById(R.id.edit_quiz_button);
             quizEditButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

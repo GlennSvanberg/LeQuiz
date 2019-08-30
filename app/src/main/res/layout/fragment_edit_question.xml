@@ -51,8 +51,7 @@
                     <EditText
                         android:id="@+id/question_title_field"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="TextView007" />
+                        android:layout_height="wrap_content"/>
                 </LinearLayout>
 
             </LinearLayout>

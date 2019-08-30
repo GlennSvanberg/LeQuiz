@@ -77,14 +77,15 @@ public class EditQuestionFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        if(mQuestion != null) {
-            mQuestionViewModel.update(mQuestion);
-        }
-        if(mAnswers != null) {
-            mAnswerViewModel.update(mAnswers);
-        }
-
+        storeQuestion();
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        storeQuestion();
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -159,6 +160,14 @@ public class EditQuestionFragment extends Fragment {
 
         updateUI();
         return view;
+    }
+    private void storeQuestion() {
+        if(mQuestion != null) {
+            mQuestionViewModel.update(mQuestion);
+        }
+        if(mAnswers != null) {
+            mAnswerViewModel.update(mAnswers);
+        }
     }
 
     private void updateUI(){

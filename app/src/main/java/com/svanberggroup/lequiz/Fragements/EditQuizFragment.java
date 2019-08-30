@@ -110,11 +110,15 @@ public class EditQuizFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        if(mQuiz != null) {
-            mQuizViewModel.update(mQuiz);
-        }
-
+        storeQuiz();
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        storeQuiz();
+    }
+
 
     @Nullable
     @Override
@@ -164,11 +168,13 @@ public class EditQuizFragment extends Fragment {
         mNewQuestionFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Question question = new Question(mQuiz.getId());
                 Intent intent = new Intent(getActivity(), EditQuestionActivity.class);
                 intent.putExtra(EXTRA_QUESTION_ID, question.getId());
                 startActivity(intent);
 
+                storeQuiz();
                 mQuestionViewModel.insert(question);
             }
         });
@@ -176,7 +182,13 @@ public class EditQuizFragment extends Fragment {
         updateUI();
         return view;
     }
-    private void updateUI() {
+
+    private void storeQuiz() {
+        if(mQuiz != null) {
+            mQuizViewModel.update(mQuiz);
+        }
+    }
+    public void updateUI() {
 
         if(mQuiz != null) {
             mQuizTitleField.setText(mQuiz.getTitle());
@@ -206,7 +218,7 @@ public class EditQuizFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-
+            storeQuiz();
             Intent intent = new Intent(getActivity(), EditQuestionActivity.class);
             intent.putExtra(EXTRA_QUESTION_ID, mQuestion.getId());
             startActivity(intent);

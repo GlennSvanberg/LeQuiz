@@ -4,42 +4,47 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.svanberggroup.lequiz.Activities.PlayQuizActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.svanberggroup.lequiz.Activities.EditQuizActivity;
 import com.svanberggroup.lequiz.Models.Quiz;
-import com.svanberggroup.lequiz.R;
 import com.svanberggroup.lequiz.ViewModels.QuizViewModel;
+import com.svanberggroup.lequiz.R;
 
 import java.util.List;
 
-public class QuizListFragment extends Fragment {
+public class EditQuizListFragment extends Fragment {
 
     private QuizViewModel mQuizViewModel;
 
     private RecyclerView mQuizListRecyclerView;
+    private FloatingActionButton mNewQuizFab;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_quiz_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_edit_quiz_list, container, false);
 
         mQuizListRecyclerView = (RecyclerView) view.findViewById(R.id.quiz_recycler_view);
         final QuizListAdapter adapter = new QuizListAdapter(getActivity());
@@ -47,6 +52,7 @@ public class QuizListFragment extends Fragment {
         mQuizListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         mQuizViewModel = ViewModelProviders.of(this).get(QuizViewModel.class);
+        //Add observer with LiveData here
         mQuizViewModel.getAllQuizzes().observe(getActivity(), new Observer<List<Quiz>>() {
             @Override
             public void onChanged(List<Quiz> quizzes) {
@@ -54,10 +60,37 @@ public class QuizListFragment extends Fragment {
             }
         });
 
+        mNewQuizFab = view.findViewById(R.id.new_quiz_fab);
+        mNewQuizFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), EditQuizActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_edit_quiz_list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.new_quiz:
+                Intent intent = new Intent(getActivity(), EditQuizActivity.class);
+                startActivity(intent);
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     private class QuizViewHolder extends RecyclerView.ViewHolder {
 
@@ -65,23 +98,13 @@ public class QuizListFragment extends Fragment {
 
         private Quiz mQuiz;
 
-        private TextView mQuizItemText;
-        private ConstraintLayout mConstraintLayoutLayout;
+        private TextView quizItemText;
+        private ImageButton quizEditButton;
 
         public QuizViewHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_item_quiz, parent, false));
+            super(inflater.inflate(R.layout.list_item_edit_quiz, parent, false));
 
-            mQuizItemText = (TextView) itemView.findViewById(R.id.quiz_title);
-            mConstraintLayoutLayout = (ConstraintLayout) itemView.findViewById(R.id.constraint_layout);
-            mConstraintLayoutLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(getActivity(), PlayQuizActivity.class);
-                    intent.putExtra(EXTRA_QUIZ_ID, mQuiz.getId());
-                    startActivity(intent);
-                }
-            });
-            /*
+            quizItemText = (TextView) itemView.findViewById(R.id.quiz_title);
             quizEditButton = (ImageButton) itemView.findViewById(R.id.edit_quiz_button);
             quizEditButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -91,8 +114,6 @@ public class QuizListFragment extends Fragment {
                     startActivity(intent);
                 }
             });
-            */
-
         }
 
         public void bind (Quiz quiz) {
@@ -100,7 +121,7 @@ public class QuizListFragment extends Fragment {
         }
     }
 
-    private class QuizListAdapter extends RecyclerView.Adapter<QuizListFragment.QuizViewHolder> {
+    private class QuizListAdapter extends RecyclerView.Adapter<QuizViewHolder> {
         private List<Quiz> mQuizzes;
 
         private final LayoutInflater mInflater;
@@ -111,19 +132,19 @@ public class QuizListFragment extends Fragment {
 
         @NonNull
         @Override
-        public QuizListFragment.QuizViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public QuizViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            return new QuizListFragment.QuizViewHolder(layoutInflater, parent);
+            return new QuizViewHolder(layoutInflater, parent);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull QuizListFragment.QuizViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull QuizViewHolder holder, int position) {
             if(mQuizzes != null) {
                 Quiz quiz = mQuizzes.get(position);
-                holder.mQuizItemText.setText(quiz.getTitle());
+                holder.quizItemText.setText(quiz.getTitle());
                 holder.bind(quiz);
             } else {
-                holder.mQuizItemText.setText("NO Quizzes");
+                holder.quizItemText.setText("NO Quizzes");
             }
 
         }

@@ -7,7 +7,6 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.svanberggroup.lequiz.Fragements.QuizListFragment;
 import com.svanberggroup.lequiz.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
         mEditQuizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getApplicationContext(), QuizListActivity.class);
+                startActivity(intent);
             }
         });
 

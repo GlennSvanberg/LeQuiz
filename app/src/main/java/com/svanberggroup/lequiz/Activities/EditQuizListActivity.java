@@ -2,13 +2,13 @@ package com.svanberggroup.lequiz.Activities;
 
 import android.os.Bundle;
 
-import com.svanberggroup.lequiz.Fragements.QuizListFragment;
+import com.svanberggroup.lequiz.Fragements.EditQuizListFragment;
 import com.svanberggroup.lequiz.R;
 
 public class EditQuizListActivity extends SingleFragmentActivity{
     @Override
-    protected QuizListFragment createFragment() {
-        return new QuizListFragment();
+    protected EditQuizListFragment createFragment() {
+        return new EditQuizListFragment();
     }
 
     @Override

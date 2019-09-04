@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,14 +18,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.svanberggroup.lequiz.Activities.EditQuestionActivity;
-import com.svanberggroup.lequiz.Activities.EditQuizActivity;
 import com.svanberggroup.lequiz.Models.Answer;
 import com.svanberggroup.lequiz.Models.Question;
 import com.svanberggroup.lequiz.Models.Quiz;
@@ -35,7 +32,6 @@ import com.svanberggroup.lequiz.ViewModels.AnswerViewModel;
 import com.svanberggroup.lequiz.ViewModels.QuestionViewModel;
 import com.svanberggroup.lequiz.ViewModels.QuizViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -75,8 +71,6 @@ public class EditQuizFragment extends Fragment {
 
         mQuizViewModel = ViewModelProviders.of(this).get(QuizViewModel.class);
         mQuestionViewModel = ViewModelProviders.of(this).get(QuestionViewModel.class);
-        mAnswerViewModel = ViewModelProviders.of(this).get(AnswerViewModel.class);
-
 
         if(getArguments().getSerializable(ARG_QUIZ_ID) == null) {
             mQuiz = new Quiz();
@@ -146,21 +140,6 @@ public class EditQuizFragment extends Fragment {
             }
         });
 
-        // Should get called every time mQuestions is updated
-        mAnswerViewModel.getAllAnswers().observe(getActivity(), new Observer<List<Answer>>() {
-            @Override
-            public void onChanged(List<Answer> answers) {
-                for(Answer answer : answers) {
-                    for (Question question : mQuestions) {
-                        if(answer.getQuestionId().equals(question.getId())) {
-                            question.addAnswer(answer);
-                            return;
-                        }
-                    }
-                }
-            }
-        });
-
 
         mQuizTitleField = (EditText) view.findViewById(R.id.quiz_title);
         mQuizTitleField.addTextChangedListener(new TextWatcher() {
@@ -227,14 +206,13 @@ public class EditQuizFragment extends Fragment {
         private Question mQuestion;
 
         private TextView mQuestionTextView;
-        private TextView mAnswerCountTextView;
 
         public QuestionsHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_item_question,parent,false));
+            super(inflater.inflate(R.layout.list_item_edit_question,parent,false));
             itemView.setOnClickListener(this);
 
             mQuestionTextView = (TextView) itemView.findViewById(R.id.question_title);
-            mAnswerCountTextView = (TextView) itemView.findViewById(R.id.question_number_of_answers_label);
+
         }
 
         @Override
@@ -249,14 +227,6 @@ public class EditQuizFragment extends Fragment {
         public void bind(Question question) {
             mQuestion = question;
             mQuestionTextView.setText(mQuestion.getTitle());
-            if(mQuestion.getAnswers() != null) {
-                mAnswerCountTextView.setText(getString(R.string.answer_count) + mQuestion.getAnswers().size());
-            } else {
-                mAnswerCountTextView.setText(getString(R.string.answer_count) + 0);
-            }
-
-            // TEST
-
         }
     }
     private class QuestionsAdapter extends RecyclerView.Adapter<QuestionsHolder> {

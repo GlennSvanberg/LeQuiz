@@ -25,6 +25,12 @@
         <activity android:name=".Activities.EditQuizListActivity">
 
         </activity>
+        <activity android:name=".Activities.QuizListActivity">
+
+        </activity>
+        <activity android:name=".Activities.PlayQuizActivity">
+
+        </activity>
     </application>
 
 </manifest>

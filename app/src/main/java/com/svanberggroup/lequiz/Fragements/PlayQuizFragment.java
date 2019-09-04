@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.svanberggroup.lequiz.Models.Quiz;
 import com.svanberggroup.lequiz.R;
@@ -27,7 +29,11 @@ public class PlayQuizFragment extends Fragment {
 
     private QuizViewModel mQuizViewModel;
 
-    private TextView textVeiw;
+    private TextView mQuizTitleTextView;
+    private ImageView mImageView;
+    private TextView mQuestionTextView;
+    private RecyclerView mAnswersRecyclerView;
+
 
 
     public static PlayQuizFragment newInstance(UUID quizId) {
@@ -58,14 +64,15 @@ public class PlayQuizFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_play_quiz, container, false);
 
-        textVeiw = view.findViewById(R.id.textView);
-
+        mQuizTitleTextView = view.findViewById(R.id.quiz_title_text_view);
+        mQuestionTextView = view.findViewById(R.id.quiz_title_text_view);
+        mQuestionTextView.setText("Questin");
 
         mQuizViewModel.getQuiz(mQuiz.getId().toString()).observe(getActivity(), new Observer<Quiz>() {
             @Override
             public void onChanged(Quiz quiz) {
                 mQuiz = quiz;
-                textVeiw.setText(mQuiz.getTitle());
+                mQuizTitleTextView.setText(mQuiz.getTitle());
             }
         });
 
